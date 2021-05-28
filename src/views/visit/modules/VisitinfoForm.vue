@@ -49,10 +49,27 @@
             </a-form-model-item>
           </a-col>
           <a-col :span="24">
-            <a-form-model-item label="图片路径" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="imgurl">
-              <a-input v-model="model.imgurl" placeholder="请输入图片路径"  ></a-input>
+            <a-form-model-item label="上传照片" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="imgurl">
+              <template>
+                <div class="clearfix">
+                  <a-upload
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    list-type="picture-card"
+                    :file-list="fileList"
+                    @change="handleChange"
+                  >
+                    <div v-if="fileList.length < 1">
+                      <a-icon type="plus" />
+                      <div class="ant-upload-text">
+                        Upload
+                      </div>
+                    </div>
+                  </a-upload>
+                </div>
+              </template>
             </a-form-model-item>
           </a-col>
+
           <a-col :span="24">
             <a-form-model-item label="状态"" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="status">
               <a-input v-model="model.status" placeholder="请输入状态"  ></a-input>
@@ -69,6 +86,12 @@
   import { httpAction, getAction } from '@/api/manage'
   import { validateDuplicateValue } from '@/utils/util'
 
+  function getBase64(img, callback) {
+    const reader = new FileReader();
+    reader.addEventListener('load', () => callback(reader.result));
+    reader.readAsDataURL(img);
+  }
+
   export default {
     name: 'VisitinfoForm',
     components: {
@@ -83,8 +106,10 @@
     },
     data () {
       return {
+        visitinfo:'',
+        fileList:[],
         model:{
-         },
+        },
         labelCol: {
           xs: { span: 24 },
           sm: { span: 5 },
@@ -122,14 +147,12 @@
            platenum: [
               { required: true, message: '请输入车牌号!'},
            ],
-           imgurl: [
-              { required: true, message: '请输入图片路径!'},
-           ],
            status: [
               { required: true, message: '请输入状态!'},
            ],
         },
         url: {
+          upload: "/visit/visitinfo/uploadinfo",
           add: "/visit/visitinfo/add",
           edit: "/visit/visitinfo/edit",
           queryById: "/visit/visitinfo/queryById"
@@ -146,6 +169,13 @@
       this.modelDefault = JSON.parse(JSON.stringify(this.model));
     },
     methods: {
+      handleChange({ fileList }) {
+        getBase64(fileList[0].originFileObj, imageUrl => {
+                                 this.imageUrl = imageUrl;
+                                 this.loading = false;
+                               });
+        this.fileList = fileList;
+      },
       add () {
         this.edit(this.modelDefault);
       },
@@ -155,6 +185,7 @@
       },
       submitForm () {
         const that = this;
+        this.model.file = this.imageUrl;
         // 触发表单验证
         this.$refs.form.validate(valid => {
           if (valid) {
@@ -162,13 +193,15 @@
             let httpurl = '';
             let method = '';
             if(!this.model.id){
-              httpurl+=this.url.add;
+              httpurl+=this.url.upload;
               method = 'post';
             }else{
               httpurl+=this.url.edit;
-               method = 'put';
+              method = 'put';
             }
-            httpAction(httpurl,this.model,method).then((res)=>{
+            let formData = new FormData(); //将需要提交的参数封装起来
+            formData.append("visitinfo",JSON.stringify(this.model))
+            httpAction(httpurl,formData,method).then((res)=>{
               if(res.success){
                 that.$message.success(res.message);
                 that.$emit('ok');
@@ -185,3 +218,18 @@
     }
   }
 </script>
+<style>
+.avatar-uploader > .ant-upload {
+  width: 128px;
+  height: 128px;
+}
+.ant-upload-select-picture-card i {
+  font-size: 32px;
+  color: #999;
+}
+
+.ant-upload-select-picture-card .ant-upload-text {
+  margin-top: 8px;
+  color: #666;
+}
+</style>
