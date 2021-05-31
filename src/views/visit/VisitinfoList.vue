@@ -99,6 +99,7 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import VisitinfoModal from './modules/VisitinfoModal'
+  import {getAction} from '@/api/manage'
 
   export default {
     name: 'VisitinfoList',
@@ -109,6 +110,7 @@
     data () {
       return {
         description: 'visitinfo管理页面',
+        status:'',
         // 表头
         columns: [
           {
@@ -228,7 +230,19 @@
         fieldList.push({type:'string',value:'imgurl',text:'图片路径'})
         fieldList.push({type:'string',value:'status',text:'状态'})
         this.superFieldList = fieldList
-      }
+      },
+      loadData(status) {
+      debugger;
+        getAction(this.url.list, {status: this.status, pageNo : this.ipagination.current,
+          pageSize :this.ipagination.pageSize}).then((res) => {
+          if (res.success) {
+            this.dataSource = res.result.records;
+            this.ipagination.total = res.result.total;
+          } else {
+            this.dataSource = null;
+          }
+        })
+      },
     }
   }
 </script>
