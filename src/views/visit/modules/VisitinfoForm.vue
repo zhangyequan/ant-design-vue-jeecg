@@ -199,7 +199,6 @@
               httpurl+=this.url.edit;
               method = 'put';
             }
-            debugger;
             httpAction2(httpurl,JSON.stringify(this.model),method).then((res)=>{
               if(res.success){
                 that.$message.success(res.message);
