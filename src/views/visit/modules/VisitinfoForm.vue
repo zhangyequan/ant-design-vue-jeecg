@@ -83,7 +83,7 @@
 
 <script>
 
-  import { httpAction, getAction } from '@/api/manage'
+  import { httpAction, getAction,httpAction2} from '@/api/manage'
   import { validateDuplicateValue } from '@/utils/util'
 
   function getBase64(img, callback) {
@@ -199,9 +199,8 @@
               httpurl+=this.url.edit;
               method = 'put';
             }
-            let formData = new FormData(); //将需要提交的参数封装起来
-            formData.append("visitinfo",JSON.stringify(this.model))
-            httpAction(httpurl,formData,method).then((res)=>{
+            debugger;
+            httpAction2(httpurl,JSON.stringify(this.model),method).then((res)=>{
               if(res.success){
                 that.$message.success(res.message);
                 that.$emit('ok');

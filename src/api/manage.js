@@ -22,11 +22,24 @@ export function postAction(url,parameter) {
 
 //post method= {post | put}
 export function httpAction(url,parameter,method) {
+  debugger;
   return axios({
     url: url,
     method:method ,
     data: parameter
   })
+}
+
+export function httpAction2(url,parameter,method) {
+  debugger;
+  return axios({
+    url: url,
+    method:method ,
+    data: parameter,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+})
 }
 
 //put
