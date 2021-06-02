@@ -2,13 +2,13 @@
   <div>
     <a-tabs default-active-key="1" @change="callback">
       <a-tab-pane key="1" tab="全部">
-        <Visitinfo-List ref="VisitinfoList"></Visitinfo-List>
+        <VisitinfoList :status="status"></VisitinfoList>
       </a-tab-pane>
-      <a-tab-pane key="2" tab="待审核" force-render>
-        <Visitinfo-List ref="VisitinfoList"></Visitinfo-List>
+      <a-tab-pane key="2" tab="待审核">
+        <VisitinfoList :status="status"></VisitinfoList>
       </a-tab-pane>
       <a-tab-pane key="3" tab="已审核">
-        <Visitinfo-List ref="VisitinfoList"></Visitinfo-List>
+        <VisitinfoList :status="status"></VisitinfoList>
       </a-tab-pane>
     </a-tabs>
   </div>
@@ -17,7 +17,9 @@
 import VisitinfoList from './VisitinfoList'
 export default {
   data() {
-    return {};
+    return {
+      status:"",
+    };
   },
   components: {
     VisitinfoList
@@ -25,15 +27,14 @@ export default {
   methods: {
     callback(key) {
       if(key == '1'){
-        this.$refs.VisitinfoList.status = '';
+        this.status = '';
         debugger;
       }else if(key == '2'){
       debugger;
-      console.log(this.$refs.VisitinfoList);
-        this.$refs.VisitinfoList.status = '0';
+      this.status = '0';
       }else{
       debugger;
-        this.$refs.VisitinfoList.status = '1';
+        this.status = '1';
       }
     },
   },

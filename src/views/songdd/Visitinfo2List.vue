@@ -12,7 +12,7 @@
     <!-- 操作按钮区域 -->
     <div class="table-operator">
       <a-button @click="handleAdd" type="primary" icon="plus">新增</a-button>
-      <a-button type="primary" icon="download" @click="handleExportXls('visitinfo')">导出</a-button>
+      <a-button type="primary" icon="download" @click="handleExportXls('visitinfo2')">导出</a-button>
       <a-upload name="file" :showUploadList="false" :multiple="false" :headers="tokenHeader" :action="importExcelUrl" @change="handleImportExcel">
         <a-button type="primary" icon="import">导入</a-button>
       </a-upload>
@@ -89,7 +89,7 @@
       </a-table>
     </div>
 
-    <visitinfo-modal ref="modalForm" @ok="modalFormOk"></visitinfo-modal>
+    <visitinfo2-modal ref="modalForm" @ok="modalFormOk"></visitinfo2-modal>
   </a-card>
 </template>
 
@@ -98,24 +98,17 @@
   import '@/assets/less/TableExpand.less'
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
-  import VisitinfoModal from './modules/VisitinfoModal'
-  import {getAction} from '@/api/manage'
-  import { filterObj } from '@/utils/util'
+  import Visitinfo2Modal from './modules/Visitinfo2Modal'
 
   export default {
-    name: 'VisitinfoList',
+    name: 'Visitinfo2List',
     mixins:[JeecgListMixin, mixinDevice],
     components: {
-      VisitinfoModal
-    },
-    props: {
-      status: {
-        type: String,
-      }
+      Visitinfo2Modal
     },
     data () {
       return {
-        description: 'visitinfo管理页面',
+        description: 'visitinfo2管理页面',
         // 表头
         columns: [
           {
@@ -129,22 +122,22 @@
             }
           },
           {
-            title:'被访对象姓名',
+            title:'被访问对象姓名',
             align:"center",
             dataIndex: 'visitedname'
           },
           {
-            title:'被访对象手机号码',
+            title:'visitednum',
             align:"center",
-            dataIndex: 'visitedpnum'
+            dataIndex: 'visitednum'
           },
           {
-            title:'来访事由',
+            title:'visitedevent',
             align:"center",
             dataIndex: 'visitedevent'
           },
           {
-            title:'来访时间',
+            title:'visittime',
             align:"center",
             dataIndex: 'visittime',
             customRender:function (text) {
@@ -152,7 +145,7 @@
             }
           },
           {
-            title:'离开时间',
+            title:'lefttime',
             align:"center",
             dataIndex: 'lefttime',
             customRender:function (text) {
@@ -160,34 +153,29 @@
             }
           },
           {
-            title:'来访者姓名',
+            title:'visitname',
             align:"center",
-            dataIndex: 'visitorname'
+            dataIndex: 'visitname'
           },
           {
-            title:'来访者手机号码',
+            title:'visitnum',
             align:"center",
-            dataIndex: 'visitorpnum'
+            dataIndex: 'visitnum'
           },
           {
-            title:'身份证号',
+            title:'identitynum',
             align:"center",
             dataIndex: 'identitynum'
           },
           {
-            title:'车牌号',
+            title:'carnum',
             align:"center",
-            dataIndex: 'platenum'
+            dataIndex: 'carnum'
           },
           {
-            title:'图片路径',
+            title:'imgurl',
             align:"center",
             dataIndex: 'imgurl'
-          },
-          {
-            title:'状态',
-            align:"center",
-            dataIndex: 'status'
           },
           {
             title: '操作',
@@ -199,12 +187,12 @@
           }
         ],
         url: {
-          list: "/visit/visitinfo/list",
-          delete: "/visit/visitinfo/delete",
-          deleteBatch: "/visit/visitinfo/deleteBatch",
-          exportXlsUrl: "/visit/visitinfo/exportXls",
-          importExcelUrl: "visit/visitinfo/importExcel",
-
+          list: "/songdd/visitinfo2/list",
+          delete: "/songdd/visitinfo2/delete",
+          deleteBatch: "/songdd/visitinfo2/deleteBatch",
+          exportXlsUrl: "/songdd/visitinfo2/exportXls",
+          importExcelUrl: "songdd/visitinfo2/importExcel",
+          
         },
         dictOptions:{},
         superFieldList:[],
@@ -212,7 +200,6 @@
     },
     created() {
     this.getSuperFieldList();
-
     },
     computed: {
       importExcelUrl: function(){
@@ -220,38 +207,23 @@
       },
     },
     methods: {
-      getQueryParams() {
-        //获取查询条件
-        let sqp = {}
-        if(this.superQueryParams){
-          sqp['superQueryParams']=encodeURI(this.superQueryParams)
-          sqp['superQueryMatchType'] = this.superQueryMatchType
-        }
-        var param = Object.assign(sqp, this.queryParam, this.isorter ,this.filters);
-        param.field = this.getQueryField();
-        param.pageNo = this.ipagination.current;
-        param.pageSize = this.ipagination.pageSize;
-        param.status = this.status;
-        return filterObj(param);
-      },
       initDictConfig(){
       },
       getSuperFieldList(){
         let fieldList=[];
-        fieldList.push({type:'string',value:'visitedname',text:'被访对象姓名'})
-        fieldList.push({type:'string',value:'visitedpnum',text:'被访对象手机号码'})
-        fieldList.push({type:'string',value:'visitedevent',text:'来访事由'})
-        fieldList.push({type:'date',value:'visittime',text:'来访时间'})
-        fieldList.push({type:'date',value:'lefttime',text:'离开时间'})
-        fieldList.push({type:'string',value:'visitorname',text:'来访者姓名'})
-        fieldList.push({type:'string',value:'visitorpnum',text:'来访者手机号码'})
-        fieldList.push({type:'string',value:'identitynum',text:'身份证号'})
-        fieldList.push({type:'string',value:'platenum',text:'车牌号'})
-        fieldList.push({type:'string',value:'imgurl',text:'图片路径'})
-        fieldList.push({type:'string',value:'status',text:'状态'})
+        fieldList.push({type:'string',value:'visitedname',text:'visitedname'})
+        fieldList.push({type:'string',value:'visitednum',text:'visitednum'})
+        fieldList.push({type:'string',value:'visitedevent',text:'visitedevent'})
+        fieldList.push({type:'date',value:'visittime',text:'visittime'})
+        fieldList.push({type:'date',value:'lefttime',text:'lefttime'})
+        fieldList.push({type:'string',value:'visitname',text:'visitname'})
+        fieldList.push({type:'string',value:'visitnum',text:'visitnum'})
+        fieldList.push({type:'string',value:'identitynum',text:'identitynum'})
+        fieldList.push({type:'string',value:'carnum',text:'carnum'})
+        fieldList.push({type:'string',value:'imgurl',text:'imgurl'})
         this.superFieldList = fieldList
-      },
-    },
+      }
+    }
   }
 </script>
 <style scoped>
