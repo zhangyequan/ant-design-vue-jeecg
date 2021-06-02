@@ -187,7 +187,22 @@
           {
             title:'状态',
             align:"center",
-            dataIndex: 'status'
+            dataIndex: 'status',
+            customRender:function (text) {
+              if(text == "0"){
+                return "待审核";
+              }else if(text == "1"){
+                return "已审核";
+              }
+            }
+          },
+          {
+            title:'申请时间',
+            align:"center",
+            dataIndex: 'createtime',
+            customRender:function (text) {
+              return !text?"":(text.length>10?text.substr(0,10):text)
+            }
           },
           {
             title: '操作',
@@ -249,6 +264,8 @@
         fieldList.push({type:'string',value:'platenum',text:'车牌号'})
         fieldList.push({type:'string',value:'imgurl',text:'图片路径'})
         fieldList.push({type:'string',value:'status',text:'状态'})
+        fieldList.push({type:'date',value:'create_time',text:'申请时间'})
+
         this.superFieldList = fieldList
       },
     },

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <a-tabs default-active-key="1" @change="callback">
+    <a-tabs default-active-key="2" @change="callback">
       <a-tab-pane key="1" tab="全部">
         <VisitinfoList :status="status"></VisitinfoList>
       </a-tab-pane>
@@ -18,7 +18,7 @@ import VisitinfoList from './VisitinfoList'
 export default {
   data() {
     return {
-      status:"",
+      status:"0",//默认打开待审核页面
     };
   },
   components: {
@@ -28,12 +28,9 @@ export default {
     callback(key) {
       if(key == '1'){
         this.status = '';
-        debugger;
       }else if(key == '2'){
-      debugger;
       this.status = '0';
       }else{
-      debugger;
         this.status = '1';
       }
     },

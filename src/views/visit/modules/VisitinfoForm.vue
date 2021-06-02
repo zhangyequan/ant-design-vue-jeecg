@@ -69,12 +69,6 @@
               </template>
             </a-form-model-item>
           </a-col>
-
-          <a-col :span="24">
-            <a-form-model-item label="状态"" :labelCol="labelCol" :wrapperCol="wrapperCol" prop="status">
-              <a-input v-model="model.status" placeholder="请输入状态"  ></a-input>
-            </a-form-model-item>
-          </a-col>
         </a-row>
       </a-form-model>
     </j-form-container>
@@ -146,9 +140,6 @@
            ],
            platenum: [
               { required: true, message: '请输入车牌号!'},
-           ],
-           status: [
-              { required: true, message: '请输入状态!'},
            ],
         },
         url: {
