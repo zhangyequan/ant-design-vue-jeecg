@@ -77,7 +77,7 @@
 
 <script>
 
-  import { httpAction, getAction,httpAction2} from '@/api/manage'
+  import { httpAction, getAction,httpJsonAction} from '@/api/manage'
   import { validateDuplicateValue } from '@/utils/util'
 
   function getBase64(img, callback) {
@@ -190,7 +190,7 @@
               httpurl+=this.url.edit;
               method = 'put';
             }
-            httpAction2(httpurl,JSON.stringify(this.model),method).then((res)=>{
+            httpJsonAction(httpurl,this.model).then((res)=>{
               if(res.success){
                 that.$message.success(res.message);
                 that.$emit('ok');

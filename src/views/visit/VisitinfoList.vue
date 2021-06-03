@@ -99,7 +99,7 @@
   import { mixinDevice } from '@/utils/mixin'
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import VisitinfoModal from './modules/VisitinfoModal'
-  import {getAction} from '@/api/manage'
+  import {httpJsonAction} from '@/api/manage'
   import { filterObj } from '@/utils/util'
 
   export default {
@@ -235,6 +235,33 @@
       },
     },
     methods: {
+      loadData(arg) {
+        if(!this.url.list){
+          this.$message.error("请设置url.list属性!")
+          return
+        }
+        //加载数据 若传入参数1则加载第一页的内容
+        if (arg === 1) {
+          this.ipagination.current = 1;
+        }
+        var params = this.getQueryParams();//查询条件
+        this.loading = true;
+        httpJsonAction(this.url.list, params).then((res) => {
+          if (res.success) {
+            this.dataSource = res.result.records||res.result;
+            if(res.result.total)
+            {
+              this.ipagination.total = res.result.total;
+            }else{
+              this.ipagination.total = 0;
+            }
+          }
+          if(res.code===510){
+            this.$message.warning(res.message)
+          }
+          this.loading = false;
+        })
+      },
       getQueryParams() {
         //获取查询条件
         let sqp = {}
