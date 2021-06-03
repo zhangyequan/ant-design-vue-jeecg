@@ -116,6 +116,7 @@
     data () {
       return {
         description: 'visitinfo管理页面',
+        queryParam: {},
         // 表头
         columns: [
           {
@@ -244,6 +245,7 @@
         if (arg === 1) {
           this.ipagination.current = 1;
         }
+        this.queryParam.status = this.status;
         var params = this.getQueryParams();//查询条件
         this.loading = true;
         httpJsonAction(this.url.list, params).then((res) => {
@@ -261,20 +263,6 @@
           }
           this.loading = false;
         })
-      },
-      getQueryParams() {
-        //获取查询条件
-        let sqp = {}
-        if(this.superQueryParams){
-          sqp['superQueryParams']=encodeURI(this.superQueryParams)
-          sqp['superQueryMatchType'] = this.superQueryMatchType
-        }
-        var param = Object.assign(sqp, this.queryParam, this.isorter ,this.filters);
-        param.field = this.getQueryField();
-        param.pageNo = this.ipagination.current;
-        param.pageSize = this.ipagination.pageSize;
-        param.status = this.status;
-        return filterObj(param);
       },
       initDictConfig(){
       },
