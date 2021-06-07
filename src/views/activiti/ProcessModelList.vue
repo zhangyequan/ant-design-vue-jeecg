@@ -268,7 +268,7 @@
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import { activitiMixin } from '@/views/activiti/mixins/activitiMixin'
   import JEllipsis from '@/components/jeecg/JEllipsis'
-  import { deleteAction, getAction,downFile } from '@/api/manage'
+  import { deleteAction, postAction,getAction,downFile } from '@/api/manage'
   import pick from "lodash.pick";
   import JTreeSelect from '@/components/jeecg/JTreeSelect'
   import {initDictOptions, filterDictText} from '@/components/dict/JDictSelectUtil'
@@ -447,7 +447,7 @@
         _this.confirmLoading = true;
         this.spry.nodeId = this.editNode.id;
        // console.log(this.spry)
-        this.postFormAction(_this.url.editNodeUser,this.spry).then(res => {
+        getAction(_this.url.editNodeUser,this.spry).then(res => {
           if (res.success) {
             _this.$message.success("操作成功");
             // _this.getData();
@@ -458,7 +458,7 @@
       },
       getNodeData(row){
         var _this = this;
-        _this.postFormAction(_this.url.getProcessNode,{
+        getAction(_this.url.getProcessNode,{
           id:row.id
         }).then(res => {
           if (res.success) {
@@ -486,7 +486,7 @@
             let formData = Object.assign(this.editObj, values)
             console.log("formData",formData)
             this.confirmLoading = true;
-            this.postFormAction(this.url.updateInfo,formData).then(res => {
+            postAction(this.url.updateInfo,formData).then(res => {
               if (res.success) {
                 _this.$message.success("操作成功");
                 _this.loadData();
@@ -574,14 +574,11 @@
               status: status,
               id: row.id
             };
-            debugger;
-            _this.postFormAction(_this.url.updateStatus,params).then(res => {
-            debugger;
+            getAction(_this.url.updateStatus,params).then(res => {
               if (res.success) {
                 _this.$message.success("操作成功");
                 _this.loadData();
               }else {
-              debugger;
                 _this.$message.error(res.message);
               }
             });
@@ -638,6 +635,7 @@
         }
         var params = this.getQueryParams();//查询条件
         this.loading = true;
+        debugger;
         getAction(this.url.list, params).then((res) => {
           if (res.success) {
             let records = res.result||[];

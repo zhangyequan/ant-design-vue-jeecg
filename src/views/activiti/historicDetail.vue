@@ -82,6 +82,7 @@
 <script>
 import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 import { activitiMixin } from '@/views/activiti/mixins/activitiMixin'
+import { deleteAction, getAction,postAction,downFile } from '@/api/manage'
 export default {
   name: "historic_detail",
   mixins:[activitiMixin,JeecgListMixin],
@@ -97,7 +98,7 @@ export default {
     return {
       url:{
         historicFlow:'/actTask/historicFlow/',
-        getHighlightImg:`${this.doMian}/activiti/models/getHighlightImg/`
+        getHighlightImg:`http://localhost:8080/jeecg-boot/activiti/models/getHighlightImg/`
       },
       type: 0,
       loading: false, // 表单加载状态
@@ -124,7 +125,8 @@ export default {
     },
     getDataList() {
       this.loading = true;
-      this.getAction(this.url.historicFlow+this.id).then(res => {
+      debugger;
+      getAction(this.url.historicFlow,{id:this.id}).then(res => {
         this.loading = false;
         if (res.success) {
           this.data = res.result;

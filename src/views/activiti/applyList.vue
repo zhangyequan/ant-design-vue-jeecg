@@ -250,7 +250,7 @@
   import { activitiMixin } from '@/views/activiti/mixins/activitiMixin'
   import { filterObj } from '@/utils/util';
   import JEllipsis from '@/components/jeecg/JEllipsis'
-  import { deleteAction, getAction,downFile } from '@/api/manage'
+  import { deleteAction, getAction,postAction,downFile } from '@/api/manage'
   import pick from "lodash.pick";
   import JTreeSelect from '@/components/jeecg/JTreeSelect'
   import {initDictOptions, filterDictText} from '@/components/dict/JDictSelectUtil'
@@ -345,7 +345,7 @@
       },
       getProcessList() {
         this.addApplyLoading = true;
-        this.postFormAction(this.url.getProcessDataList,{status:1,roles:true}).then(res => {
+        getAction(this.url.getProcessDataList,{status:1,roles:true}).then(res => {
           this.activeKeyAll = [];
           if (res.success) {
             var result = res.result||[];
@@ -449,6 +449,7 @@
         return {text:text,color:color}
       },
       apply(v) {
+      debugger;
         if (!v.procDefId || v.procDefId == "null") {
           this.$message.error("流程定义为空");
           return;
@@ -457,7 +458,7 @@
         this.form.procDefId = v.procDefId;
         this.form.title = v.title;
         // 加载审批人
-        this.getAction(this.url.getFirstNode,{procDefId:v.procDefId}).then(res => {
+        getAction(this.url.getFirstNode,{procDefId:v.procDefId}).then(res => {
           if (res.success) {
             if (res.result.type == 3 || res.result.type == 4) {
               this.isGateway = true;
@@ -506,7 +507,7 @@
         this.submitLoading = true;
         var params = Object.assign({},this.form);
         params.assignees = params.assignees.join(",")
-        this.postFormAction(this.url.applyBusiness,params).then(res => {
+        postAction(this.url.applyBusiness,params).then(res => {
           if (res.success) {
             this.$message.success("操作成功");
             this.loadData();

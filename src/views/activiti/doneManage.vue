@@ -182,7 +182,7 @@ export default {
     },
     getDataList() {
       this.loading = true;
-      this.postFormAction(this.url.doneList,this.searchForm).then(res => {
+      postAction(this.url.doneList,this.searchForm).then(res => {
         this.loading = false;
         if (res.success) {
           this.data = res.result||[];

@@ -56,6 +56,7 @@
 <script>
 import pick from 'lodash.pick'
 import JUpload from '@/components/jeecg/JUpload'
+import { postAction} from '@/api/manage'
 export default {
   name: 'demoForm',
   components: { JUpload },
@@ -138,7 +139,7 @@ export default {
             url = this.url.editForm
           }
           this.btndisabled = true
-          this.postFormAction(url, formData)
+          postAction(url, formData)
             .then(res => {
               if (res.success) {
                 this.$message.success('保存成功！')

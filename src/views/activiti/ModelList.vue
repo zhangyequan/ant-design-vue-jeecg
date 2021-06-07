@@ -221,7 +221,6 @@
       createObjOk(e) {
         this.createObj.confirmLoading = true;
         this.updateObj.visible = true;
-        debugger;
         this.iframUrl = `${this.doMian}${this.url.create}?name=${this.createObj.name||""}&key=${this.createObj.key||""}&description=${this.createObj.description||""}`
         this.createObj.visible = false;
         this.createObj.confirmLoading = false;

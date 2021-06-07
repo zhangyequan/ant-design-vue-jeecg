@@ -270,7 +270,7 @@ export default {
     loadData(){},
     getDataList() {
       this.loading = true;
-      this.postFormAction(this.url.todoList,this.searchForm).then(res => {
+      postAction(this.url.todoList,this.searchForm).then(res => {
         this.loading = false;
         if (res.success) {
           this.data = res.result||[];
@@ -536,7 +536,7 @@ export default {
             procInstIds += e.procInstId + ",";
           });
           procInstIds = procInstIds.substring(0, procInstIds.length - 1);
-          this.postFormAction(this.url.backAll,{procInstIds:procInstIds}).then(res => {
+          postAction(this.url.backAll,{procInstIds:procInstIds}).then(res => {
             if (res.success) {
               this.$message.success("操作成功");
               this.modalVisible = false;
