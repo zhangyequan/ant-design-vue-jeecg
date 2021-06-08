@@ -187,6 +187,7 @@
 import { JeecgListMixin } from '@/mixins/JeecgListMixin'
 import { activitiMixin } from '@/views/activiti/mixins/activitiMixin'
 import JSelectUserByDep from '@/components/jeecgbiz/JSelectUserByDep'
+import { postAction } from '@/api/manage'
 export default {
   name: "todo-manage",
   mixins:[activitiMixin,JeecgListMixin],
@@ -270,6 +271,7 @@ export default {
     loadData(){},
     getDataList() {
       this.loading = true;
+      debugger;
       postAction(this.url.todoList,this.searchForm).then(res => {
         this.loading = false;
         if (res.success) {

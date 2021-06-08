@@ -152,6 +152,7 @@
 
 import {activitiMixin} from "./mixins/activitiMixin";
 import {JeecgListMixin} from "../../mixins/JeecgListMixin";
+import { getAction,postAction } from '@/api/manage'
 export default {
   mixins:[JeecgListMixin,activitiMixin],
   name: "process-finish-manage",
@@ -205,7 +206,7 @@ export default {
     },
     getDataList() {
       this.loading = true;
-      this.getAction(this.url.getFinishedProcess,this.searchForm).then(res => {
+      getAction(this.url.getFinishedProcess,this.searchForm).then(res => {
         this.loading = false;
         if (res.success) {
           this.data = res.result;

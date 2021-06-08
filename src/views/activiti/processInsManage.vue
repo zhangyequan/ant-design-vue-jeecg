@@ -37,7 +37,7 @@
         </a-form>
       </div>
       <a-row>
-        <a-table :scroll="scroll" bordered
+        <a-table :scroll="{x:1450,y:500}" bordered
           :loading="loading"
           rowKey="id"
           :dataSource="data"
@@ -45,7 +45,7 @@
           @change="handleTableChange"
           ref="table"
         >
-          <a-table-column title="#"  :width="50">
+          <a-table-column title="#"  :width="100" fixed='left'>
             <template slot-scope="t,r,i" >
               <span> {{i+1}} </span>
             </template>
@@ -60,7 +60,7 @@
               <span> {{t}} </span>
             </template>
           </a-table-column>
-          <a-table-column title="申请人" dataIndex="applyer" :width="100">
+          <a-table-column title="申请人" dataIndex="applyer" :width="150">
             <template slot-scope="t,r,i" >
               <span> {{t}} </span>
             </template>
@@ -80,7 +80,7 @@
               <span> {{t}} </span>
             </template>
           </a-table-column>
-          <a-table-column title="状态" dataIndex="isSuspended" :width="110"
+          <a-table-column title="状态" dataIndex="isSuspended" :width="150"
                     key="isSuspended" :sorter="(a,b)=>Boolean(a.isSuspended)?0:1 - Boolean(b.isSuspended)?0:1"
           >
             <template slot-scope="t,r,i" >
@@ -88,7 +88,7 @@
               <span v-else style="color: #2f54eb"> 已激活 </span>
             </template>
           </a-table-column>
-          <a-table-column title="操作" dataIndex="action"  >
+          <a-table-column title="操作" dataIndex="action"  width="300" fixed='right'>
             <template slot-scope="t,r,i" >
               <template v-if="r.isSuspended">
                 <a href="javascript:void(0);" style="color: green;" @click="editStatus(1,r)" >激活</a>
@@ -146,6 +146,7 @@
 <script>
 import {activitiMixin} from "./mixins/activitiMixin";
 import {JeecgListMixin} from "../../mixins/JeecgListMixin";
+import { getAction,postAction } from '@/api/manage'
 export default {
   mixins:[activitiMixin,JeecgListMixin],
   name: "process-ins-manage",
@@ -200,7 +201,7 @@ export default {
     },
     getDataList() {
       this.loading = true;
-      this.getAction(this.url.getRunningProcess,this.searchForm).then(res => {
+      getAction(this.url.getRunningProcess,this.searchForm).then(res => {
         this.loading = false;
         if (res.success) {
           this.data = res.result;
@@ -226,7 +227,7 @@ export default {
     },
     handelSubmit() {
       this.submitLoading = true;
-      this.postFormAction(this.url.deleteProcessIns+this.deleteId, this.form).then(res => {
+      postAction(this.url.deleteProcessIns+this.deleteId, this.form).then(res => {
         this.submitLoading = false;
         if (res.success) {
           this.$message.success("操作成功");
@@ -253,7 +254,7 @@ export default {
             status: status,
             id: v.id
           };
-          this.postFormAction(this.url.updateInsStatus,params).then(res => {
+          postAction(this.url.updateInsStatus,params).then(res => {
             if (res.success) {
               this.$message.success("操作成功");
               this.getDataList();

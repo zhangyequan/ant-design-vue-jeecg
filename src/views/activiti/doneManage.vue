@@ -125,6 +125,7 @@
 <script>
   import { JeecgListMixin } from '@/mixins/JeecgListMixin'
   import { activitiMixin } from '@/views/activiti/mixins/activitiMixin'
+  import { getAction } from '@/api/manage'
 export default {
   name: "done-manage",
   mixins:[activitiMixin,JeecgListMixin],
@@ -182,7 +183,7 @@ export default {
     },
     getDataList() {
       this.loading = true;
-      postAction(this.url.doneList,this.searchForm).then(res => {
+      getAction(this.url.doneList,this.searchForm).then(res => {
         this.loading = false;
         if (res.success) {
           this.data = res.result||[];

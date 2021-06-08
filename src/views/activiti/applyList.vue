@@ -59,7 +59,7 @@
     </div>
 
     <!-- table区域-begin -->
-    <a-table :scroll="scroll" bordered
+    <a-table :scroll="{x:1300,y:500}" bordered
       ref="table"
       size="middle"
       rowKey="id"
@@ -67,7 +67,7 @@
       :pagination="ipagination"
       :loading="loading"
       @change="handleTableChange">
-      <a-table-column title="#"  :width="50">
+      <a-table-column title="#"  :width="50" fixed='left'>
         <template slot-scope="t,r,i" >
           <span> {{i+1}} </span>
         </template>
@@ -111,7 +111,7 @@
           <span> {{t}} </span>
         </template>
       </a-table-column>
-      <a-table-column title="操作" dataIndex=""  align="center">
+      <a-table-column title="操作" dataIndex=""  align="center" :width="200" fixed='right'>
         <template slot-scope="t,r,i">
           <template v-if="r.status == 0">
             <a href="javascript:void(0);" style="color: #00A0E9" @click="apply(r)" >提交申请</a>
